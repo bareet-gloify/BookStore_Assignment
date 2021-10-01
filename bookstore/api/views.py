@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from . serializer import BookSerializer
@@ -40,7 +39,7 @@ def updateBook(request, pk):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['DELETE'])
 def deleteBook(request, pk):
     product = Book.objects.get(id=pk)
     product.delete()
