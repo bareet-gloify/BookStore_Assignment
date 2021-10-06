@@ -6,6 +6,24 @@ from .models import *
 # Create your views here.
 
 
+class UserLoginView(APIView):
+    def post(self, request):
+        data = request.data
+        name = data.get('name')
+        password = data.get('password')
+        try:
+            user = User.objects.get(name=name)
+        except:
+            return Response("Wrong Credentials")
+
+        if(getattr(user, 'password') == password):
+            return Response("Logged In Successfully")
+        else:
+            return Response("Wrong Credentials")
+
+# ---------------------------------------------------------------------------
+
+
 class UserAPIView(APIView):
     def get(self, request):
         users = User.objects.all()
@@ -37,6 +55,7 @@ class UserDetailAPIView(APIView):
         user = User.objects.get(id=pk)
         serializer = UserSerializer(user, many=False)
         return Response(serializer.data)
+
 # ----------------------------------------------------------------------------------------------------
 
 
@@ -73,6 +92,7 @@ class BookStoreDetailAPIView(APIView):
         return Response(serializer.data)
 
 # ---------------------------------------------------------------------------
+
 
 class BookAPIView(APIView):
     def get(self, request):
